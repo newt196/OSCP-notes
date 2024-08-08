@@ -1,0 +1,82 @@
+if 10.10.10.10 is the defined network to be scan it is unkown. There are answers that we need to figure out before scanning can occure. Like:
+- What class is the network or ip apart of? Impoirtant because if nopt provided we could have a networkj as l;arge as class C(general home network) or a class A network (typical work network)
+Unsure on how to probe a range effeciantly if the ip or the ip range has not been provided. (Unsure if important right now because most boxes provided ip's) (possibvle issue if the oscp doesnt provide one. )
+- What subnet is the ip or ip rang eapart. 10.10.10.10 is apart of 10.10.10.0/24 = 10.10.10.1-255. Representing 256 ip's that need to be scanned.
+
+
+Commands to help scanning efforts
+
+nmap -sn 10.10.218.0/24 = -sn (no port scan) is used for a "ping scan," which only checks if hosts are up without scanning for open ports.
+
+-nmap -A 10.10.218.0/24 = -A enables OS detection, version detection, script scanning, and traceroute.
+sudo nmap -PR 10.10.218.0/24 = -PR specifies ARP discovery. It’s particularly useful in local networks, as ARP is used to discover hosts even if they don’t respond to pings.
+Unsure how IDS anbd IPS respond to -A. Further testing is needed her for deiscorvery and noise. 
+
+- If Ip is provided, does the host respond to ping sweeps AKA ping 10.10.10.0/24. (Why this is important) If we know the ip and it doesnt reposd to diescovery scans or ping seeps. Mechanism is blocking pings for a defesnive meahcnism of discorvery.
+Way Around
+This sudo nmap -PR 10.10.218.0/24 may be the counter to the ABOVE. 
+GPT response for the way around.
+
+
+
+TCP SYN Scan (Half-Open Scan):
+This scan sends a TCP SYN packet to a specific port (usually a commonly open port like 80 for HTTP, 443 for HTTPS, or 22 for SSH). If the host responds with a SYN-ACK, it indicates that the host is up.
+nmap -sS 10.10.218.0/24
+-sS initiates a SYN scan, which is often faster and less detectable than a full TCP connect scan.
+
+
+TCP Connect Scan:
+This scan attempts to complete the TCP three-way handshake by sending a SYN packet, receiving a SYN-ACK, and then sending an ACK. This is useful when a SYN scan is not allowed or doesn't work.
+nmap -sT 10.10.218.0/24
+-sT initiates a full TCP connect scan.
+
+
+TCP ACK Scan:
+This scan sends an ACK packet to a host. If the host sends back a RST packet, it indicates that the host is alive, even if it doesn’t respond to SYN packets.
+nmap -sA 10.10.218.0/24
+-sA initiates an ACK scan.
+
+
+UDP Scan:
+Some hosts may have open UDP ports, which can be used for discovery. A UDP scan sends a UDP packet to each specified port.
+nmap -sU 10.10.218.0/24
+-sU initiates a UDP scan, which can be slower but might identify services that TCP scans don’t find.
+editors note | weird how this can occur when udp is typically touted as being fast. 
+
+to help tie some of these commands together
+GPT prompt===is there an nmap command that combines 2 or more of these techniques
+
+
+
+TO ACTUAL USE WITHIN AN ENGAGMENT. | rEAD CARFULLY | 
+Example Combined nmap Command:
+Combining SYN Scan, UDP Scan, and OS/Service Version Detection:
+
+
+
+
+sudo nmap -sS -sU -sV -O 10.10.218.0/24
+
+-sS: Performs a SYN scan on TCP ports.
+-sU: Performs a UDP scan on UDP ports.
+-sV: Performs version detection to identify services running on open ports.
+-O: Attempts to detect the operating system of the host.
+
+Using Aggressive Scan (-A) with UDP Scan:
+
+
+
+sudo nmap -A -sU 10.10.218.0/24
+
+-A: Enables aggressive scanning, which includes OS detection, version detection, script scanning, and traceroute.
+-sU: Adds a UDP scan to check for open UDP ports.
+
+Example Comprehensive Scan:
+
+
+
+sudo nmap -sS -sU -p- -A 10.10.218.0/24
+
+-p-: Scans all 65,535 ports (both TCP and UDP).
+This command combines a SYN scan, UDP scan, and aggressive scan across all ports in the subnet.
+
