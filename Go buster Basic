@@ -1,0 +1,36 @@
+Gobuster for nerds
+
+Notes for better quality scans.
+
+1. Use Quality Wordlists:
+Custom Wordlists: Create or curate custom wordlists tailored to the target application. For example, if you're testing a WordPress site, use a WordPress-specific wordlist.
+
+3. Use Recursive Scanning:
+Recursive Search (-r): Enable recursive scanning to dive into subdirectories that are discovered during the scan.
+Directory Depth (-l): Limit the depth of recursion to avoid excessively deep scans that could take too long.
+
+5. Handle Status Codes:
+Ignore Certain Status Codes (-b 403): Sometimes, servers return 403 (Forbidden) for valid resources. You can choose to ignore these, or you may want to include them depending on the context.
+
+7. Incorporate SSL/TLS:
+HTTPS URLs (-k): Use the -k flag if you need to ignore SSL/TLS certificate errors when scanning HTTPS sites.
+Specify Ports (-p): Manually specify non-standard ports if the web service is running on a port other than 80 or 443.
+
+
+default seems to be gobuster dir -u 10.10.10.10 -x php,html,css,js,txt,pdf -w wordlist
+-u: This option specifies the URL or IP address of the target web server.
+
+-x php,html,css,js,txt,pdf:
+-x: This option specifies the file extensions that gobuster should append to each word in the wordlist when brute-forcing.
+Interesting to note, altgfhough I dont thinkk this will chaneg (something to be aware about) 
+Example: If the wordlist contains admin, gobuster will check for:
+admin.php
+admin.html
+admin.css
+admin.js
+admin.txt
+admin.pdf
+
+-w wordlist:
+
+-w: This option specifies the path to the wordlist file that gobuster will use for brute-forcing.
