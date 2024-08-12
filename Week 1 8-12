@@ -1,5 +1,49 @@
-SMB Enumreration
-Need an advanced undersanding put here at the end of the week. 
+https://academy.tcm-sec.com/p/the-all-access-pass
+
+Starting place after LinkedIn
+
+
+
+
+SMB Enumeration Port 139(Netbios) | 445
+Need an advanced understanding put here at the end of the week. 
+From my understanding, there are 4 tools that help to enumerate SMB. Both on Windows SMB and Linux Samab (which is new)
+Nmap NSE | nmap scriping language | based on the Lua programming language |
+Need specific information on the NSE
+
+example script found in OSCP video
+nmap<ip> --script=sm-enum* -p 445 -vvv (unsure if this is a prebuilt script or a script that is needing to be built)
+
+seems after enumerating users, we can bruteforce users passwords. RID 500==admin rid==1000dfirst user
+
+enum4linux (once a Windows machine has been discovered)
+smbclient (once a Unix/Linux machine has been discovered)
+
+This is big
+enum4linux | like nmap but only for enumerating SMB shares in a windows environment
+Notes: Can be used to Retrieve Usernames, Enumerate Shares, Check Password Policies, List Group Memberships, Identify Operating System Information, Null Session Enumeration.
+format = enum4linux -v(verbose) -U(userlisting) -n(null sessions | enumerating without requiring authentication) -a(all enumration)
+Something to note: enum4linux can generate a lot of traffic, which might be detected by intrusion detection systems (IDS). It's often considered a "noisy" tool because it performs many requests in a short time.
+
+This is big
+smbclient | Samba for Linux
+Format = smbclient //server/share -U username  
+-n(anonymous)
+
+
+Need more info on RPC client
+rpclient
+Important to note: Linux>enumerating Windows
 
 Network enumeration 
 Nmap and massscan enumeration understanding needs to be put here at the end of the week. 
+
+
+What does it mean to gain shell?
+Need red team and gpt answer
+RED TEAM:
+GTP: " it means that they have obtained command-line access to a system within that environment, t"
+Reverse Shell vs. Bind Shell:
+
+Reverse Shell: The target machine connects back to the attacker, as explained earlier. This can bypass firewalls because the connection is outgoing from the target.
+Bind Shell: The target machine listens for a connection on a specific port, and the attacker connects to it. This is less common because it requires an open port on the target machine.
