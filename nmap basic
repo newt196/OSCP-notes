@@ -23,6 +23,7 @@ TCP SYN Scan (Half-Open Scan):
 This scan sends a TCP SYN packet to a specific port (usually a commonly open port like 80 for HTTP, 443 for HTTPS, or 22 for SSH). If the host responds with a SYN-ACK, it indicates that the host is up.
 nmap -sS 10.10.218.0/24
 -sS initiates a SYN scan, which is often faster and less detectable than a full TCP connect scan.
+REAL LIFE-They now look for Syn Scans, doesnt matter on OSCP. 
 
 
 TCP Connect Scan:
