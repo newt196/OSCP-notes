@@ -10,3 +10,41 @@ gain.
 (possible information on privleage esculation) 
 
 \\ need more information on Utilman.exe and sethc.exe \\
+for utilman.exe
+Privilege Escalation: Utilman.exe has been a target for security exploits, particularly for privilege escalation. 
+Because it runs with system-level privileges and can be invoked before logging in, attackers have exploited this by replacing Utilman.exe with another executable (like cmd.exe). 
+This can grant the attacker a command prompt with system-level access without needing to log in.
+AND 
+sethc.exe
+Privilege Escalation: Similar to Utilman.exe, sethc.exe has been exploited in the past for privilege escalation. 
+Since it can be triggered at the login screen (before a user has logged in), attackers have used this to gain unauthorized access to the system.
+
+
+Transferring notes from oscp linkedin
+
+SNMP enumeration | LinkedIn Learning port 161
+Stored info in a MIB
+Nmap script --script=snmp-win32-users
+May need to enumerate community strings(unsure on its importance)
+Snmp-check to scnmp-walk programs for further enemeurating
+
+For ftp lookup binary to ascii for ftp files.
+Making sure on a ftp file we are in binary mode to download a text file.
+
+SSH enumeration | LinkedIn Learning
+Also port forward?
+Secure shell wth | just a shell from a remote location | asymmetric key pair is used
+Private and public key to reiterate
+Can login via username:password combo or also 
+ private key file with a or without a passphrase? 
+If username:password we can try hydra for logins, typically don’t have to worry about lockouts
+Local and dynamic port forwarding
+Using a local port and forwarding it to an ip address in another subnet. 
+Dynamic: need to used socks4proxy?
+Hix example. Computer we are ssh into ip is 192.168.1.49 and when we run “arp -e”
+We see a computer that has talked to 192.168.1.49 which is 10.123.123.2 which is on a widely different subnet.
+We cannot ping the address because its on a different subnet. 
+When nmap is on on the 10.123.123.2 http or port 80 is open. Meaning? We can dynamically or locally port forward form on machine to the other.
+The command is 
+Ssh -L 1234:10.123.123.2:80 root@192.168.1.49
+Whats going on forwarding on port 1234 over port 80(looks like magic)
