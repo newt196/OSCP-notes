@@ -1,0 +1,12 @@
+All about AD.
+Notes from the book 
+
+LAPS Passwords in Plain Text
+LAPS passwords are stored in plain text, not as hash codes like
+ordinary domain passwords. Anyone who has full access to an AD
+computer account can get admin rights anyway; in this respect,
+encrypted storage obviously wouldn’t provide any great security
+gain.
+(possible information on privleage esculation) 
+
+\\ need more information on Utilman.exe and sethc.exe \\
