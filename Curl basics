@@ -1,3 +1,8 @@
 Curl in its basic form 
 curl http://example.com -o output.html
-the output 
+the output works goes the working directory 
+gpt says: The "current working directory" is the directory you're in when you execute the command in your terminal or command prompt.
+
+
+so if we cd in /home exsecute execute http://example.com -o output.html
+if we now cd into /homew and execute ls > we will see /home/output.html
