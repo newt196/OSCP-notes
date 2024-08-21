@@ -1,0 +1,33 @@
+Smells like SQL injection
+https://www.exploit-db.com/papers/13650 (this doesnt make sense)
+
+Info on Blind SQL injection.
+Use cases
+-Testing the veluerability
+-Findign the table name
+-Exporting a value
+
+Every techniques are based on the 'guess attack', because we only have two different input:
+TRUE or FALSE. 
+From his example, we have a site that is 
+site.com/news.php?id=2
+
+pdf break down, thje result break down is 
+In the example site.com/news.php?id=2, the website executes the SQL query 
+SELECT * FROM news WHERE ID = 2. 
+This means the website is retrieving all columns (*) from the news table where the ID column matches the value 2. 
+The URL parameter (id=2) is used to specify which row in the news table should be selected and displayed on the page. 
+This process is common in dynamic websites that retrieve and display data from a database based on user input or URL parameters.
+
+to start suerveying the site we 
+site.com/news.php?id=2 and 1=0
+
+In this case the query will not return anything (FALSE) because 1 is different from 0; Let's do
+the litmus test: try to get the TRUE statement forcing the AND to be TRUE;
+site.com/news.php?id=2 and 0=0
+Basic explenation, everything else was to dank
+
+Seems the point of this is to fine the colums within the site. 
+
+
+
