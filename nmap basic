@@ -1,3 +1,21 @@
+This seems to be his trump scan in nmap 
+nmap -p 1-65535 -sV -sS -A -T4 $ip/24 -oN nmap.txt
+(note the .txt)
+
+note his second scan 
+nmap -oN nmap2.txt -v -sU -sS -p- -A -T4 $ip
+all udp / tcp scans
+
+quick scan plus which is noted with
+nmap -sV -T4 -O -F --version-light $ip/24
+
+I thot this was funny
+Scan with Active connect in order to weed out any spoofed ports designed to troll you
+nmap -p1-65535 -A -T5 -sT $ip
+
+
+
+
 if 10.10.10.10 is the defined network to be scan it is unkown. There are answers that we need to figure out before scanning can occure. Like:
 - What class is the network or ip apart of? Impoirtant because if nopt provided we could have a networkj as l;arge as class C(general home network) or a class A network (typical work network)
 Unsure on how to probe a range effeciantly if the ip or the ip range has not been provided. (Unsure if important right now because most boxes provided ip's) (possibvle issue if the oscp doesnt provide one. )
