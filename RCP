@@ -1,0 +1,21 @@
+RPC (Remote Procedure Call) is a protocol that allows a program to request a service from a program located on another computer in a network. 
+RPC is commonly used for communication between different systems, and in the context of security, it can be used to gather information about the remote system, such as its privileges, users, and services.
+
+rpcclient --user="" --command=enumprivs -N $ip
+
+rpcclient = used with the Samba suite used to communicate with thee RCP service.
+
+--user="" used without providing a username
+` " " ` indicate an anonymous login attempt.
+
+--command=enumprivs: This tells rpcclient to execute the enumprivs command, which enumerates the privileges available on the remote machine. 
+Privileges might include rights like "SeBackupPrivilege," "SeShutdownPrivilege," etc.
+
+-N =  no password
+
+rpcclient --user="<Username>" --command=enumprivs $ip
+
+--user="<Username>": This specifies the username to use when connecting to the RPC service. 
+Replace <Username> with the actual username you want to use.
+
+expands on the first command except with a username and possibly more privlage with a user. 
