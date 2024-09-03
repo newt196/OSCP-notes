@@ -37,6 +37,14 @@ Maybe just a ctf thing, we can seee if there are any txt files or files we can c
 
 
 Grep here helps to return and bypass the command filter
+Interesting to note that we should enemuerte what python version and blind codign tricks to call back information on the server.
+In this python may not be able to be used or installed, but Pyuthon3 may be usable or installed. 
+
+in mys case I used a reverseshell created in python to call back to a netcat listner provided on my machine. 
+
+once the shell calls back, we need to upgrade or stabalize the shell. (For right now, not really neccessary for me)
+bery akin to the importy pty as early discussed in other ctf's
+
 
 
 
