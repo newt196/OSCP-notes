@@ -1,0 +1,6 @@
+
+Kenobi should be done to better understand Samba exploits.
+
+Samba shares
+Nmap will typically provide most reesults and open and hidden shares with the samba scripts enabled and used.
+When enemerating shares a $ may be used to hide a share from network users
