@@ -10,3 +10,6 @@ I am fortunate to have connections with a senior director that has shared his no
 
 The notes consist of 1200 pages of somewhat detailed analysis of each relevant service, port, and box that the director has used.
 Need to device a way to disseminate the information provided to me.
+
+<img width="1238" alt="image" src="https://github.com/user-attachments/assets/f0f7cc10-c9fa-4d0f-b802-78b5ab1d22eb">
+
