@@ -1,0 +1,11 @@
+https://web.archive.org/web/20171003125011/https:/github.com/frizb/OSCP-Survival-Guide#windows-privilege-escalation
+
+Removing things that are second nature
+
+
+Set the Target IP Address to the $ip system variable   (This is often seen in Jeff and John's tutorials)
+export ip=192.168.1.100
+instead of 192.168.1.100
+
+Find a search for a file that contains a specific string in it’s name:
+find / -name sbd\*
