@@ -1,0 +1,25 @@
+Bind shell vs a reverse shell
+
+
+Bind Connection via port 4444 
+
+Good when a firewall is not up
+op[ening a port that we can listen to on the open port on the victims machine
+
+Reverese Shell Listner port 4444 inbound connections on port 4444 and the victim connects back to us
+(pentestmoneky)
+(revshells)
+(highoncoffee)
+
+
+Typically stars with 
+nc -nlvp <port>
+
+can determine if a shell is bad...typically with sudo -l
+
+knwoing if we need to use X64 and x86
+
+What about upgrading a shell
+
+
+
