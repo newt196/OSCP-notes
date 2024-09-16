@@ -1,0 +1,42 @@
+
+Godsend: Basic Linux Privilege Escalation - g0tmi1k (need to go through this)
+Processes running as root
+“ps aux | grep root”
+If we can write to etc/passwd we can make a user
+If we can view the /etc/shadow we can crack passwords
+
+If a user can execute a SUID binary with he owner as root, they can escalate privileges
+Google the found service and see if there is a vulnerability
+Cron job can also be exploited if it is running as root.
+In addition to we can edit the file like a reverse shell and connect with root.
+Watch timing though, sounds like a rabbit hole
+
+Service to note pspy
+DominicBreuker/pspy: Monitor linux processes without root permissions (github.com)
+
+Windows privilege escalation | LinkedIn Learning
+Seems to be a bit tough
+In addition to enemrtating windows and elevating permissions
+# Accesschk.exe
+Checks for service permissions | authenticated users
+
+# SC
+EX sc qc “Vulnerable service”
+Further enumerating the computer
+Powerup.PS1
+
+PowerTools/PowerUp/PowerUp.ps1 at master · PowerShellEmpire/PowerTools (github.com)
+Needs to be put on the victim box
+Import-ModulePowerUp.ps1
+Invoke-ALLchecks
+
+
+Found when further researching the powerup script
+
+PowerSploit
+
+Some other recourses recommended by him that could possibly require their own section
+
+FuzzySecurity | Home
+HackTricks | HackTricks
+
