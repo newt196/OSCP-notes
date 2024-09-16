@@ -1,0 +1,33 @@
+Notes on upgrading a bad shell
+Going from a command shell and upgrading with metepretor.
+Bin bash bash --noprofile is a useful command
+^used to escape a restrictive shell 
+
+PHP shell can die or can be restrictive 
+Upgrading to a metepretor shell that offers multihandling
+
+God Send: Upgrading Simple Shells to Fully Interactive TTYs - ropnop blog
+Questions to ask, is upgrading a shell even necessary sometime.
+My answer, may not be necessary. Only is required is the shell keeps dying and is pending inputs. 
+Other things to consider. Following Upgrading Simple Shells to Fully Interactive TTYs - ropnop blog may take time as he notates that some of the upgrades may not work hence costing time to research.
+Transferring files to and from Kali Linux | LinkedIn Learning
+
+Python3 -m http.sever for transferring files over from machine to machine
+Can also be done in Apache
+Systemctl enable apache2 
+Need to make sure that Apache files are there
+Var/log/apache2 for the location of the necessary files
+
+Another God Send: A simple HTTP Server supporting put (python3) (github.com)
+
+Online - Reverse Shell Generator (revshells.com)
+
+
+
+
+
+
+
+
+
+
