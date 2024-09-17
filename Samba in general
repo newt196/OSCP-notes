@@ -2,8 +2,8 @@
 Kenobi should be done to better understand Samba exploits.
 
 Samba shares
-Nmap will typically provide most reesults and open and hidden shares with the samba scripts enabled and used.
-When enemerating shares a $ may be used to hide a share from network users
+Nmap will typically provide most results and open and hidden shares with the samba scripts enabled and used.
+When enumerating shares a $ may be used to hide a share from network users
 
 nmap 
 nmap --script smb-enum-users.nse -p445 <host>
@@ -13,9 +13,9 @@ Attackers may also utilize the Metasploit module, auxiliary/scanner/smb/smb_enum
 perform the activity. Figure 3.31 shows the successful enumeration of users on a Windows system
 running Metasploitable3:
 
-may have to becarfull if you commit to using metaploit here. 
+may have to be careful if you commit to using metaplot here. 
 
-golden standard for enermuarting shares further. 
+golden standard for enumerating shares further. 
 enum4linux [options] targetip
 
 • -U: Get user list
@@ -27,14 +27,14 @@ enum4linux [options] targetip
 • -u user: Specify the username to use (default "")
 • -p pass: Specify the password to use (default "")
 
-RPCCLIENT (Windows macxhines and domain)
-for further enemueration of an n active directory environment. 
+RPCCLIENT (Windows machines and domain)
+for further enumeration of an n active directory environment. 
 
-Further info is needed for CrackMapExec (again Windows enviroment)
+Further info is needed for CrackMapExec (again Windows environment)
 
 Can be used to further exploit SMB
 Protocols: CME supports SMB, MSSQL, LDAP, WINRM, and SSH.
-Seems like a hash is needed for for cracking an already created username and hash
+Seems like a hash is needed for cracking an already created username and hash
 It can be used in recon, credential validation, post exploitation, priv esc
 
-Seems like hashcat but for specific services within AD. 
+Seems like hashcat but for specific services within AD.
