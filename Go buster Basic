@@ -21,8 +21,8 @@ default seems to be gobuster dir -u 10.10.10.10 -x php,html,css,js,txt,pdf -w wo
 -u: This option specifies the URL or IP address of the target web server.
 
 -x php,html,css,js,txt,pdf:
--x: This option specifies the file extensions that gobuster should append to each word in the wordlist when brute-forcing.
-Interesting to note, altgfhough I dont thinkk this will chaneg (something to be aware about) 
+-x: This option specifies the file extensions that go buster should append to each word in the wordlist when brute-forcing.
+Interesting to note, although I don't think this will change (something to be aware about) 
 Example: If the wordlist contains admin, gobuster will check for:
 admin.php
 admin.html
