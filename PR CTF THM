@@ -1,16 +1,16 @@
 Box has already been completed, but more extensive notes will be provided here. 
-Will need to inteegrate with notes that were already created when the box was completed.
+Will need to integrate with notes that were already created when the box was completed.
 
 Some important questions to ask
 
-What nmap scan was used to enemuerate and further enumerate the server.(Any flags or key details found or missed?)
+What nmap scan was used to enumerate and further enumerate the server. (Any flags or key details found or missed?)
 
-Remember to further lookup the use of escualation
+Remember to further lookup the use of escalation
 
 Basic scan used "nmap -sC -sV -oN <ip> "
 -sC These scripts are designed to detect common vulnerabilities
 -sV service version
--oN specoifies where the script shopuld be sasved to (txt file)
+-oN specifies where the script should be saved to (txt file)
 
 Remember we can specify t5 on the exam, need to reconsider if detection is involved. 
 
@@ -21,31 +21,26 @@ Running nikto first and then gobuster in the background.
 Interesting detail
 nikto helps us not only find the robots .txt, but scower the page to find that *disallow has not been used
 
-While we have the port scan and p[ort 8- opening. We can buy default run dirbuster or nikto on the web while saearching through
+While we have the port scan and p[ort 8- opening. We can buy default run dirbuster or nikto on the web while searching through
 Important to note, what can we blindly see on the site, int he html, in the code of the website that may give us hints. 
 
 In this case, the html provides a generic username. Possibly ssh/ftp possibly a wordpress username
 
 Gobsuter -u <website> gobuster/wordlist.txt -x php,html,css
--x is used to find spcific file exptension
+-x is used to find specific file extension
 
 Once the username and password is found for the site, unsure on what if the username or only the password was found or given.
 
-If on a ftp server, as the the same on in the portal.php. 
-We should firsst look for the commands that we can and cannot use and who wer are 
-Maybe just a ctf thing, we can seee if there are any txt files or files we can cat. 
+If on a ftp server, as the same on in the portal.php. 
+We should first look for the commands that we can and cannot use and who wer are 
+Maybe just a ctf thing, we can see if there are any txt files or files we can cat. 
 
 
 Grep here helps to return and bypass the command filter
-Interesting to note that we should enemuerte what python version and blind codign tricks to call back information on the server.
+Interesting to note that we should enumerate what python version and blind coding tricks to call back information on the server.
 In this python may not be able to be used or installed, but Pyuthon3 may be usable or installed. 
 
-in mys case I used a reverseshell created in python to call back to a netcat listner provided on my machine. 
+in my case I used a reverse shell created in python to call back to a netcat listener provided on my machine. 
 
-once the shell calls back, we need to upgrade or stabalize the shell. (For right now, not really neccessary for me)
-bery akin to the importy pty as early discussed in other ctf's
-
-
-
-
-
+once the shell calls back, we need to upgrade or stabilize the shell. (For right now, not really necessary for me)
+very akin to the importy pty as early discussed in other ctf's
