@@ -16,10 +16,10 @@ nmap -p1-65535 -A -T5 -sT $ip
 
 
 
-if 10.10.10.10 is the defined network to be scan it is unkown. There are answers that we need to figure out before scanning can occure. Like:
-- What class is the network or ip apart of? Impoirtant because if nopt provided we could have a networkj as l;arge as class C(general home network) or a class A network (typical work network)
-Unsure on how to probe a range effeciantly if the ip or the ip range has not been provided. (Unsure if important right now because most boxes provided ip's) (possibvle issue if the oscp doesnt provide one. )
-- What subnet is the ip or ip rang eapart. 10.10.10.10 is apart of 10.10.10.0/24 = 10.10.10.1-255. Representing 256 ip's that need to be scanned.
+if 10.10.10.10 is the defined network to be scan it is unknown. There are answers that we need to figure out before scanning can occur.
+- What class is the network or ip apart of? Important because if not provided we could have a network as large as class C(general home network) or a class A network (typical work network)
+Unsure on how to probe a range efficiently if the ip or the ip range has not been provided. (Unsure if important right now because most boxes provided ip's) (possible issue if the oscp doesn’t provide one. )
+- What subnet is the ip or ip rang apart. 10.10.10.10 is apart of 10.10.10.0/24 = 10.10.10.1-255. Representing 256 ip's that need to be scanned.
 
 
 Commands to help scanning efforts
@@ -28,9 +28,9 @@ nmap -sn 10.10.218.0/24 = -sn (no port scan) is used for a "ping scan," which on
 
 -nmap -A 10.10.218.0/24 = -A enables OS detection, version detection, script scanning, and traceroute.
 sudo nmap -PR 10.10.218.0/24 = -PR specifies ARP discovery. It’s particularly useful in local networks, as ARP is used to discover hosts even if they don’t respond to pings.
-Unsure how IDS anbd IPS respond to -A. Further testing is needed her for deiscorvery and noise. 
+Unsure how IDS and IPS respond to -A. Further testing is needed her for discovery and noise. 
 
-- If Ip is provided, does the host respond to ping sweeps AKA ping 10.10.10.0/24. (Why this is important) If we know the ip and it doesnt reposd to diescovery scans or ping seeps. Mechanism is blocking pings for a defesnive meahcnism of discorvery.
+- If Ip is provided, does the host respond to ping sweeps AKA ping 10.10.10.0/24. (Why this is important) If we know the ip and it doesn’t respond to discovery scans or ping seeps. Mechanism is blocking pings for a defensive mechanism of discovery.
 Way Around
 This sudo nmap -PR 10.10.218.0/24 may be the counter to the ABOVE. 
 GPT response for the way around.
@@ -41,7 +41,7 @@ TCP SYN Scan (Half-Open Scan):
 This scan sends a TCP SYN packet to a specific port (usually a commonly open port like 80 for HTTP, 443 for HTTPS, or 22 for SSH). If the host responds with a SYN-ACK, it indicates that the host is up.
 nmap -sS 10.10.218.0/24
 -sS initiates a SYN scan, which is often faster and less detectable than a full TCP connect scan.
-REAL LIFE-They now look for Syn Scans, doesnt matter on OSCP. 
+REAL LIFE-They now look for Syn Scans, doesn’t matter on OSCP. 
 
 
 TCP Connect Scan:
@@ -60,14 +60,14 @@ UDP Scan:
 Some hosts may have open UDP ports, which can be used for discovery. A UDP scan sends a UDP packet to each specified port.
 nmap -sU 10.10.218.0/24
 -sU initiates a UDP scan, which can be slower but might identify services that TCP scans don’t find.
-editors note | weird how this can occur when udp is typically touted as being fast. 
+editor’s note | weird how this can occur when udp is typically touted as being fast. 
 
 to help tie some of these commands together
 GPT prompt===is there an nmap command that combines 2 or more of these techniques
 
 
 
-TO ACTUAL USE WITHIN AN ENGAGMENT. | rEAD CARFULLY | 
+TO ACTUAL USE WITHIN AN ENGAGMENT. | READ CARFULLY | 
 Example Combined nmap Command:
 Combining SYN Scan, UDP Scan, and OS/Service Version Detection:
 
@@ -98,4 +98,3 @@ sudo nmap -sS -sU -p- -A 10.10.218.0/24
 
 -p-: Scans all 65,535 ports (both TCP and UDP).
 This command combines a SYN scan, UDP scan, and aggressive scan across all ports in the subnet.
-
