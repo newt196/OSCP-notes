@@ -1,0 +1,7 @@
+IMAP Basic Interaction Commands
+Command	Description
+curl -k 'imaps://<FQDN/IP>' --user :      Log in to the IMAPS service using cURL.
+
+openssl s_client -connect <FQDN/IP>:imaps      Connect to the IMAPS service.
+
+hydra -L users.txt -p validpassword -f 10.10.110.20 imap      Login Bruteforce with Hydra (IMAP)
