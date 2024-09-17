@@ -18,4 +18,4 @@ rpcclient --user="<Username>" --command=enumprivs $ip
 --user="<Username>": This specifies the username to use when connecting to the RPC service. 
 Replace <Username> with the actual username you want to use.
 
-expands on the first command except with a username and possibly more privlage with a user. 
+expands on the first command except with a username and possibly more privilege with a user.
