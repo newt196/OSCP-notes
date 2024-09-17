@@ -1,0 +1,52 @@
+Discovering hosts inside the network (Will try to narrow some notes for brevity)
+1.	ICMP Scan | Layer 3 | Quick and Fast | 
+
+ping -c 1 199.66.11.4    # 1 echo request to a host
+fping -g 199.66.11.0/24  # Send echo requests to ranges
+nmap -PE -PM -PP -sn -n 199.66.11.0/24 #Send echo, timestamp requests and subnet mask requests
+
+2.	TCP Port Discovery | ICMP packets being filtered | check open ports | Layer 3 |
+#Using masscan to scan top20ports of nmap in a /24 range (less than 5min)
+
+masscan -p20,21-23,25,53,80,110,111,135,139,143,443,445,993,995,1723,3306,3389,5900,8080 199.66.11.0/24
+
+You could also perform this step with nmap, but it slower and somewhat nmaphas problems identifying hosts up.
+
+# Nmap fast scan for the most 1000tcp ports used
+nmap -sV -sC -O -T4 -n -Pn -oA fastscan <IP> 
+
+# Nmap fast scan for all the ports
+nmap -sV -sC -O -T4 -n -Pn -p- -oA fullfastscan <IP> 
+
+# Nmap fast scan for all the ports slower to avoid failures due to -T4
+nmap -sV -sC -O -p- -n -Pn -oA fullscan <IP>
+
+#Bettercap Scan
+syn.scan 192.168.1.0/24 1 10000 #Ports 1-10000
+
+•	Open port: SYN --> SYN/ACK --> RST
+•	Closed port: SYN --> RST/ACK
+•	Filtered port: SYN --> [NO RESPONSE]
+•	Filtered port: SYN --> ICMP message
+
+
+3.	HTTP Port Discover | HTTP service focus | Layer 3 & 4 | 
+masscan -p80,443,8000-8100,8443 199.66.11.0/24
+
+4.	USP Port Discovery | Layer 4 | 
+nmap -sU -sV --version-intensity 0 -F -n 199.66.11.53/24
+# The -sV will make nmap test each possible known UDP service packet
+# The "--version-intensity 0" will make nmap only test the most probable
+
+More info on nmap provided @ https://book.hacktricks.xyz/generic-methodologies-and-resources/pentesting-network/nmap-summary-esp
+
+Wireshark / PCAP usage for finding useful info within the Exam
+https://github.com/lgandx/PCredz
+
+
+
+
+
+
+
+
