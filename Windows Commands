@@ -1,0 +1,459 @@
+Windows Fundamentals
+
+Basic Commands
+dir [(optional) file/directory]
+dir /a
+cd [directory]
+type [file]
+echo [text]
+echo [text] > [file]
+mkdir [new directory]
+ren [old name] [new name]
+move [source] [destination]
+copy [file] [destination]
+xcopy [source] [destination]
+del [file(s)]
+rd /s /q [directory]
+PowerShell: rd -r [directory]
+
+Special Symbols
+* ⇒ all/any
+. ⇒ current directory
+.. ⇒ previous (parent) directory
+
+PowerShell
+
+Download Files
+IWR [URL] -o [file]
+IWR -Uri [URL] -OutFile [file]
+
+$base = "http://[host]"
+$files = @("[file 1]", "[file 2]", "[file 3]")
+$dir = "C:\Windows\Tasks"
+
+foreach ($file in $files) {
+   $url = $base + $file
+   $path = Join-Path $dir $file
+   Invoke-WebRequest -Uri $url -OutFile $path
+   Write-Host "Downloaded $file to $path"
+}
+
+
+Run PowerShell Script in Memory
+IEX(IWR -Uri [URL].ps1 -UseBasicParsing)
+IEX(New-Object Net.WebClient).DownloadString('[URL].ps1')
+
+Start Process
+Start-Process -NoNewWindow -FilePath [file]
+
+Encode PowerShell
+run in Windows with powershell -w hidden -enc [base64]
+
+Windows
+$str = '[powershell]'
+[System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($str))
+
+[System.Convert]::ToBase64String((Get-Content -Path [script].ps1 -Encoding byte))
+
+Linux
+set str '[powershell]'
+echo -en $str | iconv -t UTF-16LE | base64 -w 0
+
+cat [script].ps1 | iconv -t UTF-16LE | base64 -w 0
+
+Working with Commands/Output
+Get-Help [command]
+-Examples
+Get-Command [pattern]
+ex. Get-Command New-*
+... | Member
+... | Get-Member ⇒ see all properties (even ones not displayed by default)
+-MemberType [type]
+... | Select [prop1],[prop2]
+... | Select-Object -Property [prop1],[prop2] ⇒ pull out specific properties
+... | ?/Where [prop] -[operator] [value]
+... | Where-Object -Property [prop] -[operator] [value] ⇒ filter
+Operators
+-Match
+-Contains
+-EQ
+-GT
+... | %/ForEach [what to do on each iteration]
+... | ForEach-Object -Begin [before loop] -Process [each iteration] -End [after loop]
+... | ft [prop1],[prop2]
+... | Format-Table [prop1],[prop2] -A ⇒ display as table (properties optional)
+first - gets the first x object
+last - gets the last x object
+unique - shows the unique objects
+skip - skips x objects
+... | fl [prop1],[prop2]
+... | Format-List [prop1],[prop2] ⇒ display as list (properties optional)
+... | Sort [prop]
+... | Sort-Object -Property [prop]
+... | Measure
+
+Script block: within a PowerShell command, use { and }. Reference the current item with $_
+examples:
+Get-Service | Where-Object { $_.Status -eq "Stopped" }
+Get-Process | ForEach-Object {$_.ProcessName}
+
+PowerShell History
+Get-History
+(Get-PSReadlineOption).HistorySavePath
+type [path]
+
+Switch 32/64-bit Terminal Process
+https://ss64.com/nt/syntax-64bit.html
+
+OS Architecture
+wmic os get osarchitecture
+wmic cpu get datawidth /format:list
+[System.Environment]::Is64BitOperatingSystem
+
+Process Architecture
+echo %PROCESSOR_ARCHITEW6432% ⇒ if AMD64, then process is 32-bit
+[System.Environment]::Is64BitProcess
+
+
+example: if running a 32-bit process (session), binaries for 64-bit (such as cmd, powershell) will be in C:\Windows\sysNative\ (folder)
+
+System Information
+systeminfo
+ver
+reg query HKLM\Software\Microsoft\Windows NT\CurrentVersion
+
+User Management
+
+Local
+net user ⇒ list users
+net user [username] ⇒ list user properties
+net user [username] [password] /[add/delete] ⇒ add/delete a user
+net user [username] [password] OR net user [username] * ⇒ change user’s password
+
+net localgroup ⇒ list groups
+net localgroup [group] ⇒ list group properties
+net localgroup [group] /[add/delete] ⇒ add/delete a group
+net localgroup [group] [username] /[add/delete] ⇒ add/delete a user to/from a group
+
+Important Groups:
+Users
+Administrators
+Remote Management Users ⇒ can use WinRM
+Remote Desktop Users ⇒ can use RDP
+
+Domain
+Same as local, but add /domain to all commands and replace localgroup with group
+Note: using localgroup with /domain will make changes to local groups on the DC
+
+Important Groups:
+Domain Users
+Domain Admins
+Enterprise Admins ⇒ admins for all domains in forest
+Domain Computers
+Domain Controllers
+
+Important Files
+C:\Windows\System32\config\SAM ⇒ local users, groups, and password hashes
+C:\Windows\System32\config\SYSTEM ⇒ required to decrypt SAM
+C:\Windows\NTDS\NTDS.dit ⇒ domain users, groups, and password hashes
+See Registry section below
+
+File Management
+Recently accessed files are in %USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent
+
+Search Filenames
+dir /a /s /b [path with wildcards]
+eg. dir /a /s /b C:\*pdf*
+where /R [path] [filename]
+Get-ChildItem -Path [path] -Include [filename with wildcards] -Recurse -ErrorAction SilentlyContinue
+eg. Get-ChildItem -Path C:\Users -Include *.txt,*.ini,*.pdf,*.kdbx,*.exe -Recurse -ErrorAction SilentlyContinue
+
+Search File Contents
+findstr /si [contents] [filename with wildcards]
+use /i instead of /si for case sensitive
+eg. findstr /si password *.txt
+Get-ChildItem -Path [path] -Recurse | Select-String -Pattern [contents]
+
+Alternate Data Streams
+[command ⁠→ type, echo, etc] > [file]:[stream] ⇒ write to alternate stream
+dir /r [path] ⇒ list all streams
+Get-Item -Path [path] -Stream * ⇒ list all streams (PowerShell)
+more < [file]:[stream] ⇒ view file stream contents
+expand [file]:[stream] [new file] ⇒ extract stream contents, save to [new file]
+
+Startup Directories
+C:\Users\[username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup ⇒ contents executed when user logs in
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup ⇒ contents executed when any user logs in
+
+File Permissions
+icacls [folder/file] ⇒ list permissions
+icacls [folder/file] /reset /t /c ⇒ reset permissions
+icacls [folder/file] /grant [user]:[permission] /t /c ⇒ grant/allow
+icacls [folder/file] /deny [user]:[permission] /t /c ⇒ deny
+This is useful if, for example, members of a group inherit access to a file but a specific user should be denied access.
+icacls [folder/file] /remove [user]:[permission] /t /c ⇒ remove permission
+
+Basic Permissions
+F Full access
+M Modify access
+RX Read and execute access
+R Read-only access
+W Write-only access
+
+Advanced/Inherited Permissions
+See this page of the Windows documentation.
+
+Volume Shadow Management
+vssadmin list shadows ⇒ list shadow copies
+mklink /d [path] [shadow copy] ⇒ create link to shadow copy
+
+vssadmin create shadow /for=[drive]: ⇒ create shadow copy, windows server only
+wmic shadowcopy call create volume=[path] ⇒ create shadow copy
+
+vssadmin delete shadows /shadow={[shadow copy ID]} ⇒ delete shadow copy
+vssadmin delete shadows /all ⇒ delete all shadow copies
+
+Program/Software Management
+
+List Software
+wmic product get name /value
+Get-CimInstance -ClassName Win32_Product | Select-Object -Property Name
+
+32-bit Software Only
+reg query HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall /s /f DisplayName
+Get-ItemProperty "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+
+64-bit Software Only
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall /s /f DisplayName
+Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*" | select displayname
+
+Uninstall Software
+wmic product where name="[name]" call uninstall /nointeractive
+
+Windows Application Management
+winget search [app] ⇒ search Microsoft store for an app
+winget show [app] ⇒ show information about an app
+winget list ⇒ list installed apps
+winget upgrade -all
+winget uninstall [app]
+
+Program Folders
+C:\Program Files ⇒ system programs (64-bit)
+C:\Program Files (x86) ⇒ system programs (32-bit)
+C:\Users\[username]\AppData ⇒ user-specific programs
+Local ⇒ this machine only
+LocalLow ⇒ same as local, but lower integrity
+Roaming ⇒ synchronised with server when logged in to a domain
+C:\ProgramData ⇒ programs accessible by all users
+C:\Program Files\WindowsApps ⇒ apps
+
+Process Management
+tasklist /svc ⇒ processes and associated services
+tasklist /fi "username ne nt authority\system" /v ⇒ non-SYSTEM processes
+tasklist /fi "pid eq [process ID]" ⇒ search by process ID
+taskkill /f /im [process name] /t ⇒ kill process by name
+taskkill /f /pid [process ID] /t ⇒ kill process by ID
+
+wmic process get name,processid,executablepath
+Get-Process | Select-Object -ExpandProperty Path
+
+Service Management
+reg query HKLM\SYSTEM\CurrentControlSet\Services ⇒ service names
+sc query ⇒ all services
+sc query [service] ⇒ service status
+sc qc [service] ⇒ service configuration
+sc [start/stop/delete] [service]
+sc [create/delete] [service]
+sc create [service] binpath= "[executable]" start= auto
+sc description [service] "[description]" ⇒ change service description
+sc config [service] [option]= [value]
+Service Options
+
+Get-CimInstance -ClassName win32_service | Select Name,PathName | Where-Object {$_.State -like 'Running'} ⇒ running services
+
+Service Permissions
+Adapted from this site.
+sc sdshow [service] ⇒ list service permissions
+sc sdset [service] "[permissions]" ⇒ set service permissions
+
+Permissions are written in the following format:
+[ACL]:([A/D];;[permissions];;;[object/SID])
+
+Access Control List (ACL)
+S: System ACL (SACL)
+D: Discretionary ACL (DACL)
+
+A/D ⇒ allow/deny
+
+Permissions
+CC SERVICE_QUERY_CONFIG (query service settings)
+LC SERVICE_QUERY_STATUS (get service status)
+SW SERVICE_ENUMERATE_DEPENDENTS
+LO SERVICE_INTERROGATE
+CR SERVICE_USER_DEFINED_CONTROL
+RC READ_CONTROL
+RP SERVICE_START
+WP SERVICE_STOP
+DT SERVICE_PAUSE_CONTINUE
+
+Common Objects
+AU Authenticated users
+AO Account operators
+RU Alias to allow previous Windows 2000
+AN Anonymous logon
+AU Authenticated users
+BA Built-in administrators
+BG Built-in guests
+BO Backup operators
+BU Built-in users
+CA Certificate server administrators
+CG Creator group
+CO Creator owner
+DA Domain administrators
+DC Domain computers
+DD Domain controllers
+DG Domain guests
+DU Domain users
+EA Enterprise administrators
+ED Enterprise domain controllers
+WD Everyone
+PA Group Policy administrators
+IU Interactively logged-on user
+LA Local administrator
+LG Local guest
+LS Local service account
+SY Local system
+NU Network logon user
+NO Network configuration operators
+NS Network service account
+PO Printer operators
+PS Personal self
+PU Power users
+RS RAS servers group
+RD Terminal server users
+RE Replicator
+RC Restricted code
+SA Schema administrators
+SO Server operators
+SU Service logon user
+
+Scheduled Tasks
+Scheduled Tasks Cheat Sheet
+schtasks /query /fo list ⇒ list scheduled tasks
+schtasks /query /tn [name] /fo list /v ⇒ list specific task details
+schtasks /delete /f /tn [name] ⇒ delete task
+
+File Locations
+C:\Windows\System32\Tasks
+C:\Windows\Tasks ⇒ legacy
+
+Drivers
+driverquery ⇒ all drivers
+pnputil /enum-drivers ⇒ plug-n-play drivers
+pnputil /delete-driver [name]
+
+Registry
+reg query [key] ⇒ list all key values
+reg add [key] /f /v [name] /t [type] /d [data]
+reg delete [key] /f
+reg delete [key] /f /v [name]
+reg save [key] [file] ⇒ save registry key’s value to a file
+
+The following system registry keys are stored in %SystemRoot%\System32\config:
+Sam (HKEY_LOCAL_MACHINE\SAM)
+Security (HKEY_LOCAL_MACHINE\SECURITY)
+Software (HKEY_LOCAL_MACHINE\SOFTWARE)
+System (HKEY_LOCAL_MACHINE\SYSTEM)
+Default (HKEY_USERS\.DEFAULT)
+
+The following user registry keys are stored in %USERPROFILE%\NTUSER.DAT:
+Current User (HKEY_LOCAL_CURRENT_USER)
+
+HKLM ⇔ HKEY_LOCAL_MACHINE
+HKCU ⁠⇔ HKEY_CURRENT_USER
+
+Environment Variables
+HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment ⇒ system-wide environment variables
+HKCU\Environment ⇒ current user environment variables
+
+Installed Software
+HKLM\SOFTWARE ⇒ system-wide software
+HKCU\SOFTWARE ⇒ current user software
+
+Service Configurations
+HKLM\SYSTEM\CurrentControlSet\Services
+
+Start Value
+0 → kernel drivers (load before kernel initialization)
+2 → auto start
+3 → manual start
+
+Scheduled Task Configurations
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tasks
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\Schedule\Taskcache\Tree
+
+Run Keys
+run when user logs in (similar to Startup Directories)
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+deleted after execution
+HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce
+deleted after execution
+
+Other
+HKLM\SYSTEM\MountedDevices ⇒ mounted devices
+HKLM\SYSTEM\CurrentControlSet\Enum\USB ⇒ USB devices
+HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Map Network Drive MRU ⇒ mapped network drives
+
+Networking
+ipconfig /all
+arp -a
+netstat
+-a ⇒ show all
+-n ⇒ show numerical addresses
+-o ⇒ show pid
+-p [proto] ⇒ show specific protocol only
+	examples:
+netstat -ano
+netstat -anop tcp
+
+IP Addressing
+netsh interface ip show interfaces
+
+netsh interface ip set address name= "[interface]" static [ip] [subnet] [gateway]
+netsh interface ip set dnsservers name= "[interface]" static [dns ip]
+
+netsh interface ip set address name= "[interface]" source=dhcp
+
+LDAP Query
+Windows Server only
+dsquery * -filter [ldap filter] -attr [attr1 attr2 etc]
+-limit [limit] ⇒ the number of results to display or 0 for unlimited
+-d [domain] ⇒ search results for another domain
+Use * in filter as a wildcard (see examples below).
+AD Attributes List
+
+Examples:
+dsquery * -filter "(&(objectclass=user)(admincount=1))" -attr samaccountname name ⇒ admin users
+dsquery * -filter "(operatingsystem=*10*)" -attr name operatingsystem dnshostname -limit 0 ⇒ hosts with OS version that contains 10
+dsquery * -filter "(objectclass=trusteddomain)" -attr flatname trustdirection ⇒ domain trusts
+	1 → they trust you
+	2 → you trust them
+	3 → both
+
+Firewall
+Firewall Command Examples
+netsh advfirewall firewall [show/add/set/delete] rule ? ⇒ list available options
+
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled [True/False]
+Set-NetFirewallProfile -DefaultInboundAction [Allow/Block] -DefaultOutboundAction [Allow/Block]
+
+Get-NetFirewallRule -Direction [Inbound/Outbound] | Disable-NetFirewallRule
+
+Get-NetFirewallRule -DisplayName "*[name]*" | Where Direction -eq "Inbound"
+Get-NetFirewallRule -DisplayName "*[name]*" | Enable-NetFirewallRule
+Get-NetFirewallRule -DisplayName "*[name]*" | Disable-NetFirewallRule
+
+Get-NetFirewallPortFilter | Where LocalPort -eq [port] | Get-NetFirewallRule | Where Direction -eq [Inbound/Outbound]
+can replace -eq [port] with -in [comma-separated ports]
