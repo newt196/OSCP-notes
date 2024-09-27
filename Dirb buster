@@ -1,0 +1,18 @@
+Basic command
+
+dirbuster -u http://example.com -l /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+-u: Specifies the URL.
+-l: Specifies the wordlist to use for the attack.
+
+dirbuster -u http://targetsite.com -l /path/to/custom_wordlist.txt -t 50
+-t: Specifies the number of threads (in this case, 50 threads).
+
+
+dirbuster -u http://targetsite.com -l /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt
+To restrict DirBuster to searching for specific file types like .php, .html, or .txt:
+-x: Specifies file extensions to search for.
+
+
+dirbuster -u http://targetsite.com/admin -l /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+You can target a specific directory (like /admin) on a web server if you want to avoid scanning the entire site:
